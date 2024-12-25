@@ -1,0 +1,10 @@
+APP_TITLE = "Inkome"
+NUMBER_OF_SYMBOLS_LABEL = "Брой символи:"
+RATE_PER_PAGE_LABEL = "Цена на страница:"
+DEDUCTION_LABEL = "Удръжки (%):"
+CALCULATE_BUTTON_TEXT = "Изчисли хонорар"
+FEE_INDICATOR_LABEL = "Хонорар:"
+INVALID_INPUT_MESSAGE = 'Моля, въведете числови стойности в полетата "Брой символи", "Цена на страница" и "Удръжки (%)"!'
+INVALID_INPUT_MESSAGE_TITLE = "Невалидна стойност"
+SYMBOLS_PER_PAGE = 1800
+FEE_VALUE = "{value} лв."
