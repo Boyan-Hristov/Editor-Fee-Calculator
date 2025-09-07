@@ -10,7 +10,7 @@ class Calculator(tk.Tk):
         super().__init__(*args, **kwargs)
 
         self.fee_value = tk.StringVar()
-        self.deduction_value = tk.StringVar(value="6")
+        self.deduction_value = tk.StringVar(value=constants.DEFAULT_DEDUCTION_RATE)
 
         self.style = ttk.Style()
         self.style.configure("TButton", font=("TkDefaultFont", 14))
@@ -22,7 +22,7 @@ class Calculator(tk.Tk):
 
         self.symbols_or_pages_dropdown = ttk.Combobox(self, values=constants.DROPDOWN_OPTIONS, width=14)
         self.symbols_or_pages_dropdown.set(constants.NUMBER_OF_SYMBOLS)
-        self.symbols_or_pages_dropdown.place(relx=0.39, rely=0.15, anchor="center")
+        self.symbols_or_pages_dropdown.place(relx=0.37, rely=0.15, anchor="center")
 
         self.symbols_input_field = ttk.Entry(self, width=10)
         self.symbols_input_field.place(relx=0.6, rely=0.15, anchor="center")
@@ -71,7 +71,7 @@ class Calculator(tk.Tk):
             deduction = fee_value * deduction_rate / 100
             fee_value -= deduction
             fee = f"{fee_value:.02f}"
-            euro_value = f"{float(fee) * 0.511292:.02f}"
+            euro_value = f"{float(fee) * constants.EUR_TO_BGN:.02f}"
             self.fee_value.set(constants.FEE_VALUE.format(lev_value=fee, euro_value=euro_value))
         except ValueError:
             self.show_popup()

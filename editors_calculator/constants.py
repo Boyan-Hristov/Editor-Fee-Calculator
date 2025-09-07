@@ -9,4 +9,6 @@ FEE_INDICATOR_LABEL = "Хонорар:"
 INVALID_INPUT_MESSAGE = 'Моля, въведете числови стойности в полетата "Брой символи", "Цена на страница" и "Удръжки (%)"!'
 INVALID_INPUT_MESSAGE_TITLE = "Невалидна стойност"
 SYMBOLS_PER_PAGE = 1800
+EUR_TO_BGN = 0.511292
+DEFAULT_DEDUCTION_RATE = "6"
 FEE_VALUE = "{lev_value} лв. / € {euro_value}"
