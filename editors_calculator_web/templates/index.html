@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <meta name="theme-color" content="#4a90e2">
+
+<!-- iOS specific -->
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon-192.png') }}">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta charset="utf-8">
+  <title>{{ constants.APP_TITLE }}</title>
+  <style>
+    body { font-family: sans-serif; margin: 2em; }
+    label { display: block; margin-top: 1em; }
+    input, select { padding: 5px; }
+    button { margin-top: 1em; padding: 10px; font-size: 1em; }
+    .result { margin-top: 2em; font-weight: bold; }
+    .error { margin-top: 2em; color: red; }
+  </style>
+</head>
+<script src="static/js/calculator.js"></script>
+<body>
+  <h1>{{ constants.APP_TITLE }}</h1>
+  <form method="post">
+    <label>{{ constants.NUMBER_OF_SYMBOLS }}
+      <select name="mode">
+        {% for option in constants.DROPDOWN_OPTIONS %}
+          <option value="{{ option }}">{{ option }}</option>
+        {% endfor %}
+      </select>
+      <input type="text" name="symbols">
+    </label>
+
+    <label>{{ constants.RATE_PER_PAGE_LABEL }}
+      <input type="text" name="rate">
+    </label>
+
+    <label>{{ constants.DEDUCTION_LABEL }}
+      <input type="text" name="deduction" value="{{ constants.DEFAULT_DEDUCTION_RATE }}">
+    </label>
+
+    <button type="submit">{{ constants.CALCULATE_BUTTON_TEXT }}</button>
+  </form>
+
+  {% if result %}
+    <div class="result">{{ constants.FEE_INDICATOR_LABEL }} {{ result }}</div>
+  {% endif %}
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
+</body>
+</html>
