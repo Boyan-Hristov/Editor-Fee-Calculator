@@ -83,7 +83,7 @@
                 <option value="pages">Брой страници</option>
             </select>
 
-            <input type="text" id="symbols" name="symbols" placeholder="Брой символи / страници">
+            <input type="text" id="symbols" name="symbols" placeholder="Брой символи">
 
             <label for="rate">Цена на страница (лв.):</label>
             <input type="text" id="rate" name="rate" placeholder="Напр. 2.50">
@@ -119,6 +119,26 @@
 
             const data = await response.json();
             document.getElementById("result").innerText = data.result || "Грешка!";
+        });
+
+        // 🔹 Clear all inputs and update placeholder when dropdown changes
+        document.getElementById("symbols_or_pages").addEventListener("change", function() {
+            const symbolsField = document.getElementById("symbols");
+            const rateField = document.getElementById("rate");
+            const deductionField = document.getElementById("deduction");
+
+            // Clear fields
+            symbolsField.value = "";
+            rateField.value = "";
+            deductionField.value = "6"; // reset to default
+            document.getElementById("result").innerText = ""; // clear result
+
+            // Update placeholder dynamically
+            if (this.value === "symbols") {
+                symbolsField.placeholder = "Брой символи";
+            } else {
+                symbolsField.placeholder = "Брой страници";
+            }
         });
     </script>
 </body>
