@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inkome</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #5695b3;
+        }
+
+        .image-above-container {
+            margin-bottom: 75px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 30px;
+            border-radius: 12px;
+            background-color: #9dcbe0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        label {
+            font-size: 16px;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        input, select {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 14px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: #0078d7;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #005ea0;
+        }
+
+        .result {
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <img class="image-above-container" src="static/icon-192.png" alt="icon" width="175" height="175">
+    <div class="container">
+        <form id="calcForm">
+            <select name="symbols_or_pages" id="symbols_or_pages">
+                <option value="symbols">Брой символи</option>
+                <option value="pages">Брой страници</option>
+            </select>
+
+            <input type="text" id="symbols" name="symbols" placeholder="Брой символи">
+
+            <label for="rate">Цена на страница (лв.):</label>
+            <input type="text" id="rate" name="rate" placeholder="Напр. 2.50">
+
+            <label for="deduction">Удръжки (%):</label>
+            <input type="text" id="deduction" name="deduction" value="6">
+
+            <button type="submit">Изчисли хонорар</button>
+        </form>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        document.getElementById("calcForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // stop page reload
+
+            const symbols_or_pages = document.getElementById("symbols_or_pages").value;
+            const symbols = document.getElementById("symbols").value;
+            const rate = document.getElementById("rate").value;
+            const deduction = document.getElementById("deduction").value;
+
+            const response = await fetch("/calculate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    symbols_or_pages,
+                    symbols,
+                    rate,
+                    deduction
+                })
+            });
+
+            const data = await response.json();
+            document.getElementById("result").innerText = data.result || "Грешка!";
+        });
+
+        // 🔹 Clear all inputs and update placeholder when dropdown changes
+        document.getElementById("symbols_or_pages").addEventListener("change", function() {
+            const symbolsField = document.getElementById("symbols");
+            const rateField = document.getElementById("rate");
+            const deductionField = document.getElementById("deduction");
+
+            // Clear fields
+            symbolsField.value = "";
+            rateField.value = "";
+            deductionField.value = "6"; // reset to default
+            document.getElementById("result").innerText = ""; // clear result
+
+            // Update placeholder dynamically
+            if (this.value === "symbols") {
+                symbolsField.placeholder = "Брой символи";
+            } else {
+                symbolsField.placeholder = "Брой страници";
+            }
+        });
+    </script>
+</body>
+</html>
